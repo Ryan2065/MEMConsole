@@ -1,0 +1,57 @@
+﻿@using MEMConsole.Client.Models
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage;
+@inject MEMConsoleConnection memClient;
+@inject ILogger<MEMConnectButton> logger;
+
+<Label>@connectedTo</Label>
+<Button Color="Color.Primary" aria-label="@connectButtonLabel" Clicked="@ConnectClicked">@connectButtonString</Button>
+
+<Modal @bind-Visible="@modalIsVisible">
+    <ModalContent Centered>
+        <ModalHeader>
+            <ModalTitle>MEM Connect</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <Field>
+                <FieldLabel>Tenant Id</FieldLabel>
+                <TextEdit Placeholder="Enter Tenant Id..." Text="@memClient.TenantId" TextChanged="@TenantIdTextChanged" Pattern="@guidRegexPattern">
+                    <Feedback>
+                        <ValidationError>Tenant Id must be a GUID</ValidationError>
+                    </Feedback>
+                </TextEdit>
+            </Field>
+            <Field>
+                <FieldLabel>Server App Id</FieldLabel>
+                <TextEdit Placeholder="Enter server app id..." Text="@memClient.ServerAppId" TextChanged="@ServerAppIdTextChanged" Pattern="@guidRegexPattern">
+                    <Feedback>
+                        <ValidationError>Server App Id must be a GUID</ValidationError>
+                    </Feedback>
+                </TextEdit>
+            </Field>
+            <Field>
+                <FieldLabel>Admin Service URL</FieldLabel>
+                <TextEdit Placeholder="Enter the admin service URL..." @bind-Text="@memClient.AdminServiceUrl"></TextEdit>
+            </Field>
+            <Field>
+                <FieldLabel>Client Id</FieldLabel>
+                <TextEdit Placeholder="Enter client id..." @bind-Text="@memClient.ClientId" Pattern="@guidRegexPattern">
+                    <Feedback>
+                        <ValidationError>Client Id must be a GUID</ValidationError>
+                    </Feedback>
+                </TextEdit>
+            </Field>
+            <Field>
+                <FieldLabel>Authority</FieldLabel>
+                <TextEdit Placeholder="Enter authority..." @bind-Text="@memClient.Authority"></TextEdit>
+            </Field>
+            <Field>
+                <FieldLabel>Scopes to request</FieldLabel>
+                <TextEdit Placeholder=" Enter scopes..." @bind-Text="@memClient.Scopes"></TextEdit>
+            </Field>
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Primary" Clicked="@ModalConnectClicked">Connect</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>

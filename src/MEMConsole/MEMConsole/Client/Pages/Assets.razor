@@ -1,0 +1,9 @@
+﻿@using MEMConsole.Client.Models
+@using Microsoft.AspNetCore.Authorization
+@inject MEMConsoleConnection memClient;
+@inject IHttpClientFactory ClientFactory
+@attribute [Authorize]
+@page "/Assets"
+<h3>Assets</h3>
+
+@smsRSystem

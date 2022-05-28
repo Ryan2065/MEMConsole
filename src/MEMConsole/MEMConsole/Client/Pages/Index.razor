@@ -1,0 +1,60 @@
+﻿@using MEMConsole.Client.Models;
+@page "/";
+
+<PageTitle>Index</PageTitle>
+
+<h1>Welcome to MEMConsole!</h1>
+
+@if(!MemClient.IsAuthenticated)
+{
+    <MEMConnect />
+    <h2>Connecting to MEM Console</h2>
+    <p>In order to connect to the MEM Console, you'll need to create an Azure Application and provide MEM Console with the application's ClientId.</p>
+    <p>Below you'll find instructions on setting everything up!</p>
+    <Accordion>
+        <MEMCAccordianItem Header="Tenant Id">
+            <p>You can find the Tenant Id your CMG is using with this SQL query in ConfigMgr:</p>
+            <pre><code>
+    SELECT 
+      [TenantID]
+      ,[Name]
+      ,[Environment]
+      ,[SiteCode]
+    FROM [dbo].[vSMS_AAD_Tenant_Ex]
+            </code></pre>
+        </MEMCAccordianItem>
+        <MEMCAccordianItem Header="Server App Id">
+            <p>The server app id is the client id of the server app specified when creating the CMG. You can get an idea of what it is with this SQL query:</p>
+            <pre><code>
+    SELECT 
+      [ClientID] as 'ServerAppId'
+      ,[Name]
+    FROM [dbo].[vSMS_AAD_Application_Ex]
+    WHERE [NAME] NOT LIKE 'ConfigMgrSvc%' AND IsClientApp = 0
+            </code></pre>
+        </MEMCAccordianItem>
+        <MEMCAccordianItem Header="Admin Service URL">
+            <p>The admin service URL will be the external URL to access your Admin Service. You can find it with this SQL query:</p>
+            <pre><code>
+    SELECT [ExternalUrl] as 'AdminServiceURL'
+    FROM [dbo].[vProxy_Routings]
+    WHERE ExternalEndpointName = 'AdminService'
+            </code></pre>
+        </MEMCAccordianItem>
+        <MEMCAccordianItem Header="Client Id">
+            <p>The client id needed is the client id for the application created in your tenant to allow this tool to query the Admin Service. You can create an application with the below PowerShell script:</p>
+            <pre><code>
+@ClientIdScript
+            </code></pre>
+        </MEMCAccordianItem>
+        <MEMCAccordianItem Header="Authority">
+            <p>The authority is a URL where we can request a token from. It's generally going to be <code>https://login.windows.net/{TenantId}</code>. Once the tenant is is provided, it will be auto-filled out. Advanced scenarios might need a different authority, so you have the ability to change it.</p>
+        </MEMCAccordianItem>
+        <MEMCAccordianItem Header="Scopes">
+            <p>You can provide a comma separated list of scopes to request. In order to get access to the API, only one scope should be needed, and it will be auto-generated in the Scopes box. It can be changed or added to for advanced scenarios.</p>
+        </MEMCAccordianItem>
+    </Accordion>
+}
+else{
+    <p>You're successfully connected! Please select an option to the left to get started!</p>
+}

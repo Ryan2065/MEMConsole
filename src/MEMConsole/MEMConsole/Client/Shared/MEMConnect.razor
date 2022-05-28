@@ -1,0 +1,51 @@
+﻿@using MEMConsole.Client.Models;
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage;
+@inject MEMConsoleConnection memClient;
+@inject ILogger<MEMConnect> logger;
+
+<div style="max-width:500px;">
+    <Validation UsePattern >
+        <Field>
+            <FieldLabel>Tenant Id</FieldLabel>
+            <TextEdit Placeholder="Enter Tenant Id..." Text="@memClient.TenantId" Pattern="@guidRegexPattern" TextChanged="@TenantIdTextChanged" >
+                <Feedback>
+                    <ValidationError>Tenant Id must be a GUID</ValidationError>
+                </Feedback>
+            </TextEdit>
+        </Field>
+    </Validation>
+    <Validation UsePattern>
+        <Field>
+            <FieldLabel>Server App Id</FieldLabel>
+            <TextEdit Placeholder="Enter server app id..." Text="@memClient.ServerAppId" Pattern="@guidRegexPattern" TextChanged="@ServerAppIdTextChanged" >
+                <Feedback>
+                    <ValidationError>Server App Id must be a GUID</ValidationError>
+                </Feedback>
+            </TextEdit>
+        </Field>
+    </Validation>
+
+        <Field>
+            <FieldLabel>Admin Service URL</FieldLabel>
+            <TextEdit Placeholder="Enter the admin service URL..." @bind-Text="@memClient.AdminServiceUrl"></TextEdit>
+        </Field>
+    <Validation UsePattern>
+        <Field>
+            <FieldLabel>Client Id</FieldLabel>
+            <TextEdit Placeholder="Enter client id..."  Pattern="@guidRegexPattern" @bind-Text="@memClient.ClientId" >
+                <Feedback>
+                    <ValidationError>Client Id must be a GUID</ValidationError>
+                </Feedback>
+            </TextEdit>
+        </Field>
+    </Validation>
+    <Field>
+        <FieldLabel>Authority</FieldLabel>
+        <TextEdit Placeholder="Enter authority..." @bind-Text="@memClient.Authority"></TextEdit>
+    </Field>
+    <Field>
+        <FieldLabel>Scopes to request</FieldLabel>
+        <TextEdit Placeholder=" Enter scopes..." @bind-Text="@memClient.Scopes"></TextEdit>
+    </Field>
+    <Button Color="Color.Primary" Clicked="@ConnectClicked">Connect</Button>
+</div>

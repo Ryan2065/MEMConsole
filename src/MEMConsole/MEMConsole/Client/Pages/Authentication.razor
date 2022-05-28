@@ -1,0 +1,23 @@
+﻿@page "/authentication/{action}"
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using Microsoft.AspNetCore.WebUtilities
+@inject NavigationManager NavManager
+
+<RemoteAuthenticatorView Action="@Action"  />
+
+@code{
+    [Parameter] public string? Action { get; set; }
+    void OnLoginSucceedAction()
+    {
+        var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
+        var queryStrings = QueryHelpers.ParseQuery(uri.Query);
+        if(queryStrings.TryGetValue("returnUrl", out var returnUrl))
+        {
+            var returnURI = new Uri(returnUrl);
+            if(returnURI.Host.Equals(uri.Host, StringComparison.OrdinalIgnoreCase))
+            {
+                NavManager.NavigateTo(returnUrl);
+            }
+        }
+    }
+}

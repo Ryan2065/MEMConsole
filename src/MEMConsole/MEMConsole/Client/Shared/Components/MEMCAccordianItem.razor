@@ -1,0 +1,26 @@
+﻿<Collapse Visible="@IsExpanded">
+    <CollapseHeader>
+        <Heading Size="HeadingSize.Is4">
+            <Button Clicked="@ButtonClicked">@Header</Button>
+        </Heading>
+    </CollapseHeader>
+    <CollapseBody>
+        @ChildContent
+    </CollapseBody>
+</Collapse>
+
+@code {
+    [Parameter] public RenderFragment ChildContent { get; set; } = default!;
+    [Parameter] public string Header { get; set; } = "";
+    [Parameter] public bool IsExpanded { get; set; } = false;
+
+    protected override void OnInitialized()
+    {
+
+    }
+    void ButtonClicked()
+    {
+        IsExpanded = !IsExpanded;
+        StateHasChanged();
+    }
+}
