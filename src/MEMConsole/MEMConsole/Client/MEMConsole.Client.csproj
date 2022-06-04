@@ -5,7 +5,24 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
-  </PropertyGroup>
+	  <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+	  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+	</PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="AdminServiceMetadata\Include.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="AdminServiceMetadata\2203.v1.metadata.xml" />
+    <None Remove="AdminServiceMetadata\2203.WMI.metadata.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="AdminServiceMetadata\2203.v1.metadata.xml" />
+    <AdditionalFiles Include="AdminServiceMetadata\2203.WMI.metadata.xml" />
+    <AdditionalFiles Include="AdminServiceMetadata\Include.json" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Blazored.LocalStorage" Version="4.3.0-preview.1" />
@@ -20,6 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AdminServiceCodeGen\MEMConsole.AdminServiceCodeGen.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     <ProjectReference Include="..\Shared\MEMConsole.Shared.csproj" />
   </ItemGroup>
 

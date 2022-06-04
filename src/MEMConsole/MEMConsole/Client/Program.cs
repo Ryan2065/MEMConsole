@@ -7,6 +7,7 @@ using Blazorise.Bootstrap5;
 using Blazorise.Icons.FontAwesome;
 using MEMConsole.Client.Models;
 using Microsoft.JSInterop;
+using MEMConsole.Client.AdminServiceModels.v2203.v1;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
@@ -70,6 +71,7 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddSingleton(serviceProvider => (IJSInProcessRuntime)serviceProvider.GetRequiredService<IJSRuntime>());
 builder.Services.AddTransient<MEMConsoleConnection>();
+builder.Services.AddScoped<AdminServicev1>();
 
 builder.Services
     .AddBlazorise(options =>

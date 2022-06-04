@@ -1,0 +1,8 @@
+{
+  "v1": [
+    "Device"
+  ],
+  "WMI": [
+    "SMS_R_System"
+  ]
+}
